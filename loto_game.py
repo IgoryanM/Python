@@ -1,5 +1,5 @@
-import time
 import random
+import os
 
 
 class LotoCard:
@@ -21,16 +21,27 @@ class LotoCard:
  
 class Game:
     def __init__(self):
-    	   self.bag = [el for el in range(1, 91)]
+        self.bag = [el for el in range(1, 91)]
     
     def start(self, human_card, pc_card):
-    	   print('Загрузка игры...', end='')  
-    	   time.sleep(1)
-    	   print('.', end='')
-    	   time.sleep(1)
-    	   print ('.')	   
-    	   	   	   	
-st = Game()  
-st.start(1, 2)  	   	   	   	
-d = LotoCard()
-print(d)
+        
+        #while self.bag != []:
+            print(f'Новый бочонок: {self.turn()} осталось {len(self.bag)}')	  
+            print(f'----Ваша карточка----\n{human_card}')
+            print('---------------------')
+            print(f'-Карточка компьютера-\n{pc_card}')
+            print('---------------------')
+            
+            
+           # os.system('clr') 
+    		     
+    def turn (self):
+        random.shuffle(self.bag)
+        return self.bag.pop()
+        
+    	       
+human_card = LotoCard()
+pc_card = LotoCard()	   	   	   	
+st = Game()  	   	   	   	
+
+st.start(human_card, pc_card)
