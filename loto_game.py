@@ -3,9 +3,8 @@ import os
 
 
 class LotoCard:
-    def __init__(self, name):	
+    def __init__(self):	
         self.new_card = []
-        self.name = name
         for i in range(3):
             line = random.sample(range(1, 91), 5)
             line.sort()
@@ -23,12 +22,11 @@ class LotoCard:
         for line in self.new_card:
     	    line = str(line)
     	    for el in line:
-    		    if el.isdigit() == False:
+    		    if el.isdigit() == True:
     			    iswin = False
-        if iswin == True:
-            print (f'Победил {self.name}')
+        return iswin
            
- 
+           
 class Game:
     def __init__(self):
         self.bag = [el for el in range(1, 91)]
@@ -56,16 +54,20 @@ class Game:
             		if num in line:
             			line[line.index(num)]  = '•'
             			
-            human_card.win()
-            pc_card.win()
-    		     
+            if human_card.win():
+                print ('Победил игрок')
+                break
+            if pc_card.win():
+                print ('Победил компьютер')
+                break
+               		          
     def turn (self):
         random.shuffle(self.bag)
         return self.bag.pop()
         
     	       
-hm_card = LotoCard('Player')
-cpu_card = LotoCard('Computer')	   	   	   	
+hm_card = LotoCard()
+cpu_card = LotoCard()  	   	
 st = Game()  	   	   	   	
 
 st.start(hm_card, cpu_card)
