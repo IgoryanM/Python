@@ -1,5 +1,4 @@
 import random
-import os
 
 
 class LotoCard:
@@ -20,8 +19,8 @@ class LotoCard:
     def win(self):
         iswin = True
         for line in self.new_card:
-    	    line = str(line)
-    	    for el in line:
+    	    st_line = str(line)
+    	    for el in st_line:
     		    if el.isdigit() == True:
     			    iswin = False
         return iswin
@@ -30,15 +29,29 @@ class LotoCard:
 class Game:
     def __init__(self):
         self.bag = [el for el in range(1, 91)]
-    
+        
+    def turn (self):
+        random.shuffle(self.bag)
+        return self.bag.pop()
+       
     def start(self, human_card, pc_card):
         while self.bag != []:
+                
             num = self.turn()
-            print(f'Новый бочонок: {num} осталось {len(self.bag)}')	  
-            print(f'----Ваша карточка----\n{human_card}')
-            print('---------------------')
-            print(f'-Карточка компьютера-\n{pc_card}')
-            print('---------------------')         
+            
+            print(f'Новый бочонок: {num} осталось {len(self.bag)}\n----Ваша карточка----\n{ human_card}\n---------------------\n-Карточка компьютера-\n{pc_card}\n---------------------')
+            
+            if human_card.win():
+                print ('\n★★★Победил игрок★★★')
+                break
+            if pc_card.win():
+                print ('\n★★★Победил компьютер★★★')
+                break
+            
+            for line in pc_card.new_card:
+            	 	if num in line:
+             			line[line.index(num)]  = '•'
+            			
             my_turn = input('\nЗачеркнуть цифру? (y/n) ')
             if my_turn == 'y':
             	selector = False
@@ -47,24 +60,9 @@ class Game:
             			line[line.index(num)]  = '•'
             			selector = True
             	if selector == False:
-            		   print ('---Игрок проиграл---')
+            		   print ('Вы ошиблись\n---Игрок проиграл---')
             		   break
-            	
-            for line in pc_card.new_card:
-            		if num in line:
-            			line[line.index(num)]  = '•'
-            			
-            if human_card.win():
-                print ('Победил игрок')
-                break
-            if pc_card.win():
-                print ('Победил компьютер')
-                break
-               		          
-    def turn (self):
-        random.shuffle(self.bag)
-        return self.bag.pop()
-        
+ 			          
     	       
 hm_card = LotoCard()
 cpu_card = LotoCard()  	   	
